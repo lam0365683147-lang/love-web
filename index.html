@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ha Vy 💖 | The Ultimate Love</title>
+  <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-color: #ff4da6;
+      --background-start: #ffb3d9;
+      --background-end: #ff66b3;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100vh;
+      background: linear-gradient(135deg, var(--background-start), var(--background-end));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Dancing Script', cursive;
+      color: var(--neon-color);
+    }
+
+    h1 {
+      font-size: 120px;
+      color: #fff;
+      text-shadow: 0 0 10px var(--neon-color), 0 0 40px var(--neon-color);
+      animation: glow 2s infinite alternate;
+      margin-top: 60px;
+      z-index: 10;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #fff, 0 0 40px var(--neon-color); }
+      to { text-shadow: 0 0 20px #fff, 0 0 80px var(--neon-color); }
+    }
+
+    .love-text {
+      font-size: 50px;
+      margin-top: -10px;
+      color: #fff;
+      text-shadow: 0 0 10px #ffb3ec, 0 0 30px #ff4da6;
+      animation: fadeSlide 3s ease-in-out infinite alternate;
+    }
+
+    .wish-text {
+      margin-top: 20px;
+      font-size: 30px;
+      color: #fff;
+      text-shadow: 0 0 10px #ffccff, 0 0 30px #ff66ff;
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0.6; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 💞 Trái tim bay từ dưới lên 💞 */
+    .heart {
+      position: absolute;
+      bottom: 0;
+      width: 35px;
+      height: 35px;
+      background: var(--neon-color);
+      transform: rotate(-45deg);
+      animation: float var(--float-duration) linear infinite;
+      box-shadow: 0 0 20px rgba(255,255,255,0.9);
+      opacity: var(--float-opacity);
+      z-index: 0;
+    }
+
+    .heart::before, .heart::after {
+      content: "";
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      background: var(--neon-color);
+      border-radius: 50%;
+    }
+
+    .heart::before { top: -17px; left: 0; }
+    .heart::after { top: 0; left: 17px; }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+    }
+
+    /* 💫 Dây treo 3 ảnh đung đưa 💫 */
+    .photo-line {
+      margin-top: 60px;
+      width: 80%;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      position: relative;
+      z-index: 5;
+    }
+
+    .photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px #ff99ff;
+      transform-origin: top center;
+      animation: swing 4s ease-in-out infinite alternate;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .photo:hover {
+      transform: scale(1.1) rotate(0deg);
+      box-shadow: 0 0 40px #ff66cc;
+    }
+
+    .photo::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      width: 2px;
+      height: 40px;
+      background: pink;
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px #ff99ff;
+    }
+
+    .photo:nth-child(1) {
+      background-image: url('{{ url_for("static", filename="pic1.jpg") }}');
+      animation-delay: 0s;
+    }
+    .photo:nth-child(2) {
+      background-image: url('{{ url_for("static", filename="pic2.jpg") }}');
+      animation-delay: 1s;
+    }
+    .photo:nth-child(3) {
+      background-image: url('{{ url_for("static", filename="pic3.jpg") }}');
+      animation-delay: 2s;
+    }
+
+    @keyframes swing {
+      0% { transform: rotate(4deg); }
+      100% { transform: rotate(-4deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Ha Vy 💖</h1>
+  <div class="love-text">Anh Iu Em 💕</div>
+  <div class="wish-text">Chúc Bé iuuu ngày 20/10 thiệt là vui vẻ 🌸💐</div>
+
+  <div class="photo-line">
+    <div class="photo"></div>
+    <div class="photo"></div>
+    <div class="photo"></div>
+  </div>
+
+  <audio id="bgm" loop>
+    <source src="{{ url_for('static', filename='music.mp3') }}" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const bgm = document.getElementById("bgm");
+    const lastTime = localStorage.getItem("bgm_time");
+    if (lastTime) bgm.currentTime = parseFloat(lastTime);
+
+    // 🩷 Tự động phát nhạc sau 1s khi load lại trang
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        bgm.play().catch(err => console.log("Chặn tự động phát:", err));
+      }, 1000);
+    });
+
+    // Nếu nhấn vào ảnh → phát nhạc
+    document.querySelectorAll(".photo").forEach(photo => {
+      photo.addEventListener("click", () => {
+        bgm.play().catch(err => console.log("Không phát được nhạc:", err));
+      });
+    });
+
+    // Lưu lại vị trí phát nhạc
+    setInterval(() => {
+      if (!isNaN(bgm.currentTime)) {
+        localStorage.setItem("bgm_time", bgm.currentTime);
+      }
+    }, 1000);
+
+    // 💖 Tạo nhiều trái tim bay
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.setProperty("--float-duration", (3 + Math.random() * 3) + "s");
+      heart.style.setProperty("--float-opacity", 0.6 + Math.random() * 0.4);
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 50);
+  </script>
+</body>
+</html>
